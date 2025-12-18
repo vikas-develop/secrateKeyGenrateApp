@@ -321,19 +321,19 @@ export function SecretGenerator() {
       >
         <Card className="border-2 shadow-lg">
         <CardHeader className="pb-4">
-          <div className="flex items-center gap-3 mb-2">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-2">
             <div className="p-2 rounded-lg bg-primary/10">
-              <Sparkles className="h-6 w-6 text-primary" />
+              <Sparkles className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
             </div>
-            <div className="flex-1">
-              <CardTitle className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+            <div className="flex-1 min-w-0">
+              <CardTitle className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
                 Secret Generator
               </CardTitle>
-              <CardDescription className="text-base mt-1">
+              <CardDescription className="text-sm sm:text-base mt-1">
                 Generate secure secrets using various cryptographic algorithms
               </CardDescription>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 w-full sm:w-auto">
               <SecretHistory />
             </div>
           </div>
@@ -341,8 +341,8 @@ export function SecretGenerator() {
         <CardContent className="space-y-6">
           {/* Algorithm Selection */}
           <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="algorithm" className="text-base font-semibold">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+              <Label htmlFor="algorithm" className="text-sm sm:text-base font-semibold">
                 Select Algorithm
               </Label>
               <Badge variant={algorithmBadges[algorithm].variant} className="gap-1">
@@ -480,7 +480,7 @@ export function SecretGenerator() {
               )}
 
               {algorithm === "api-key" && (
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="segments" className="text-sm font-medium">Segments</Label>
                     <Input
@@ -741,7 +741,7 @@ export function SecretGenerator() {
               <Layers className="h-5 w-5 text-primary" />
               <Label className="text-base font-semibold">Batch Generation</Label>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="batch-count" className="text-sm font-medium">
                   Number of Secrets (1-100)
@@ -817,19 +817,19 @@ export function SecretGenerator() {
               >
                 <Card className="border-2 border-primary/20 shadow-xl bg-gradient-to-br from-card to-card/50">
               <CardHeader className="pb-3">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                   <div className="flex items-center gap-2">
                     <div className="p-1.5 rounded-md bg-primary/10">
                       <CheckCircle2 className="h-5 w-5 text-primary" />
                     </div>
-                    <CardTitle className="text-xl font-bold">Generated Secret</CardTitle>
+                    <CardTitle className="text-lg sm:text-xl font-bold">Generated Secret</CardTitle>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => exportSecret(generatedSecret, algorithm, { format: 'txt' })}
-                      className="gap-2"
+                      className="gap-2 flex-1 sm:flex-initial"
                       title="Download as TXT"
                     >
                       <Download className="h-4 w-4" />
@@ -839,7 +839,7 @@ export function SecretGenerator() {
                       variant="outline"
                       size="sm"
                       onClick={() => exportSecret(generatedSecret, algorithm, { format: 'json' })}
-                      className="gap-2"
+                      className="gap-2 flex-1 sm:flex-initial"
                       title="Download as JSON"
                     >
                       <Download className="h-4 w-4" />
@@ -849,7 +849,7 @@ export function SecretGenerator() {
                       variant="default"
                       size="sm"
                       onClick={handleCopy}
-                      className="gap-2 shadow-md hover:shadow-lg transition-shadow"
+                      className="gap-2 shadow-md hover:shadow-lg transition-shadow flex-1 sm:flex-initial"
                     >
                       <Copy className="h-4 w-4" />
                       Copy
@@ -859,7 +859,7 @@ export function SecretGenerator() {
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="relative group">
-                  <div className="p-5 bg-background/80 backdrop-blur-sm rounded-lg border-2 border-border/50 break-all font-mono text-sm leading-relaxed shadow-inner hover:border-primary/30 transition-colors">
+                  <div className="p-3 sm:p-5 bg-background/80 backdrop-blur-sm rounded-lg border-2 border-border/50 break-all font-mono text-xs sm:text-sm leading-relaxed shadow-inner hover:border-primary/30 transition-colors">
                     {generatedSecret}
                   </div>
                   <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -868,8 +868,8 @@ export function SecretGenerator() {
                     </Badge>
                   </div>
                 </div>
-                <div className="flex items-center justify-between text-xs text-muted-foreground">
-                  <div className="flex items-center gap-4">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs text-muted-foreground">
+                  <div className="flex flex-wrap items-center gap-3 sm:gap-4">
                     <span className="flex items-center gap-1">
                       <Shield className="h-3 w-3" />
                       Secure
@@ -916,17 +916,17 @@ export function SecretGenerator() {
               >
                 <Card className="border-2 border-primary/20 shadow-xl bg-gradient-to-br from-card to-card/50">
               <CardHeader className="pb-3">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col gap-3">
                   <div className="flex items-center gap-2">
                     <div className="p-1.5 rounded-md bg-primary/10">
                       <Layers className="h-5 w-5 text-primary" />
                     </div>
-                    <CardTitle className="text-xl font-bold">Batch Generated Secrets</CardTitle>
+                    <CardTitle className="text-lg sm:text-xl font-bold">Batch Generated Secrets</CardTitle>
                     <Badge variant="secondary" className="ml-2">
                       {batchSecrets.length}
                     </Badge>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
                     {selectedBatchSecrets.size > 0 && (
                       <Badge variant="outline" className="text-xs">
                         {selectedBatchSecrets.size} selected
@@ -936,17 +936,19 @@ export function SecretGenerator() {
                       variant="outline"
                       size="sm"
                       onClick={handleSelectAllBatch}
-                      className="gap-2"
+                      className="gap-2 text-xs sm:text-sm"
                     >
                       {selectedBatchSecrets.size === batchSecrets.length ? (
                         <>
                           <Square className="h-4 w-4" />
-                          Deselect All
+                          <span className="hidden sm:inline">Deselect All</span>
+                          <span className="sm:hidden">Deselect</span>
                         </>
                       ) : (
                         <>
                           <CheckSquare className="h-4 w-4" />
-                          Select All
+                          <span className="hidden sm:inline">Select All</span>
+                          <span className="sm:hidden">Select</span>
                         </>
                       )}
                     </Button>
@@ -954,16 +956,17 @@ export function SecretGenerator() {
                       variant="outline"
                       size="sm"
                       onClick={handleCopyBatchSelected}
-                      className="gap-2"
+                      className="gap-2 text-xs sm:text-sm"
                     >
                       <Copy className="h-4 w-4" />
-                      Copy {selectedBatchSecrets.size > 0 ? `Selected (${selectedBatchSecrets.size})` : 'All'}
+                      <span className="hidden sm:inline">Copy {selectedBatchSecrets.size > 0 ? `Selected (${selectedBatchSecrets.size})` : 'All'}</span>
+                      <span className="sm:hidden">Copy</span>
                     </Button>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="outline" size="sm" className="gap-2">
                           <Download className="h-4 w-4" />
-                          Export
+                          <span className="hidden sm:inline">Export</span>
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
@@ -1015,7 +1018,7 @@ export function SecretGenerator() {
                             className="mt-1"
                           />
                           <div className="flex-1 space-y-2">
-                            <div className="flex items-center justify-between">
+                            <div className="flex items-center justify-between gap-2">
                               <Badge variant="outline" className="text-xs">
                                 #{index + 1}
                               </Badge>
@@ -1037,16 +1040,16 @@ export function SecretGenerator() {
                                     });
                                   }
                                 }}
-                                className="h-7 px-2 gap-1"
+                                className="h-7 px-2 gap-1 flex-shrink-0"
                               >
                                 <Copy className="h-3 w-3" />
-                                Copy
+                                <span className="hidden sm:inline">Copy</span>
                               </Button>
                             </div>
-                            <div className="p-2 bg-muted/50 rounded-md break-all font-mono text-sm">
+                            <div className="p-2 bg-muted/50 rounded-md break-all font-mono text-xs sm:text-sm">
                               {item.secret}
                             </div>
-                            <div className="flex items-center justify-between text-xs text-muted-foreground">
+                            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1 text-xs text-muted-foreground">
                               <span>Length: {item.secret.length} chars</span>
                               <span>{new Date(item.timestamp).toLocaleTimeString()}</span>
                             </div>

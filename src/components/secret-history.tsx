@@ -166,20 +166,20 @@ export function SecretHistory() {
           )}
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-2xl max-h-[90vh] flex flex-col p-0">
-        <div className="p-6 pb-4 flex-shrink-0">
+      <DialogContent className="max-w-2xl max-h-[90vh] w-[95vw] sm:w-full flex flex-col p-0">
+        <div className="p-4 sm:p-6 pb-4 flex-shrink-0">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
+            <DialogTitle className="flex items-center gap-2 text-lg sm:text-xl">
               <History className="h-5 w-5" />
               Secret History
             </DialogTitle>
-            <DialogDescription>
+            <DialogDescription className="text-sm">
               View and manage your saved secrets. Secrets are stored locally in your browser.
             </DialogDescription>
           </DialogHeader>
         </div>
 
-        <div className="flex-1 min-h-0 flex flex-col px-6 pb-6">
+        <div className="flex-1 min-h-0 flex flex-col px-4 sm:px-6 pb-4 sm:pb-6">
         {!isMounted ? (
           <div className="flex flex-col items-center justify-center py-12 text-center">
             <History className="h-12 w-12 text-muted-foreground mb-4 opacity-50 animate-pulse" />
@@ -235,9 +235,9 @@ export function SecretHistory() {
           </div>
         ) : (
           <>
-            <div className="flex items-center justify-between mb-4 flex-shrink-0">
-              <div className="flex items-center gap-3">
-                <p className="text-sm text-muted-foreground">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 flex-shrink-0 gap-3">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                <p className="text-xs sm:text-sm text-muted-foreground">
                   {history.length} {history.length === 1 ? "secret" : "secrets"} saved
                 </p>
                 {selectedSecrets.size > 0 && (
@@ -246,33 +246,36 @@ export function SecretHistory() {
                   </Badge>
                 )}
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
                 {selectedSecrets.size > 0 && (
                   <>
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={handleCopySelected}
-                      className="gap-2"
+                      className="gap-2 text-xs sm:text-sm flex-1 sm:flex-initial"
                     >
                       <Copy className="h-4 w-4" />
-                      Copy Selected ({selectedSecrets.size})
+                      <span className="hidden sm:inline">Copy Selected ({selectedSecrets.size})</span>
+                      <span className="sm:hidden">Copy ({selectedSecrets.size})</span>
                     </Button>
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={handleSelectAll}
-                      className="gap-2"
+                      className="gap-2 text-xs sm:text-sm flex-1 sm:flex-initial"
                     >
                       {selectedSecrets.size === history.length ? (
                         <>
                           <Square className="h-4 w-4" />
-                          Deselect All
+                          <span className="hidden sm:inline">Deselect All</span>
+                          <span className="sm:hidden">Deselect</span>
                         </>
                       ) : (
                         <>
                           <CheckSquare className="h-4 w-4" />
-                          Select All
+                          <span className="hidden sm:inline">Select All</span>
+                          <span className="sm:hidden">Select</span>
                         </>
                       )}
                     </Button>
@@ -280,9 +283,9 @@ export function SecretHistory() {
                 )}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="outline" size="sm" className="gap-2">
+                    <Button variant="outline" size="sm" className="gap-2 flex-1 sm:flex-initial">
                       <Download className="h-4 w-4" />
-                      Export
+                      <span className="hidden sm:inline">Export</span>
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
@@ -300,10 +303,11 @@ export function SecretHistory() {
                   variant="destructive"
                   size="sm"
                   onClick={handleClearAll}
-                  className="gap-2"
+                  className="gap-2 flex-1 sm:flex-initial"
                 >
                   <Trash2 className="h-4 w-4" />
-                  Clear All
+                  <span className="hidden sm:inline">Clear All</span>
+                  <span className="sm:hidden">Clear</span>
                 </Button>
               </div>
             </div>
@@ -318,21 +322,21 @@ export function SecretHistory() {
                     <Card key={item.id} className={`border ${selectedSecrets.has(item.id) ? 'ring-2 ring-primary' : ''}`}>
                       <CardHeader className="pb-3">
                         <div className="flex items-start justify-between gap-2">
-                          <div className="flex items-start gap-2 flex-1">
+                          <div className="flex items-start gap-2 flex-1 min-w-0">
                             <Checkbox
                               checked={selectedSecrets.has(item.id)}
                               onCheckedChange={() => handleToggleSelect(item.id)}
-                              className="mt-1"
+                              className="mt-1 flex-shrink-0"
                             />
-                            <div className="flex-1 space-y-1">
-                              <div className="flex items-center gap-2">
-                                <CardTitle className="text-sm font-semibold">
+                            <div className="flex-1 space-y-1 min-w-0">
+                              <div className="flex flex-wrap items-center gap-2">
+                                <CardTitle className="text-xs sm:text-sm font-semibold break-words">
                                   {item.algorithm.charAt(0).toUpperCase() + item.algorithm.slice(1).replace(/-/g, " ")}
                                 </CardTitle>
                                 {item.strength && (
                                   <Badge
                                     variant="outline"
-                                    className={`text-xs ${
+                                    className={`text-xs flex-shrink-0 ${
                                       item.strength.strength === "weak"
                                         ? "text-red-600"
                                         : item.strength.strength === "medium"
@@ -350,7 +354,7 @@ export function SecretHistory() {
                               </CardDescription>
                             </div>
                           </div>
-                          <div className="flex items-center gap-1">
+                          <div className="flex items-center gap-1 flex-shrink-0">
                             <Button
                               variant="ghost"
                               size="sm"
@@ -383,11 +387,11 @@ export function SecretHistory() {
                         </div>
                       </CardHeader>
                       <CardContent className="pt-0 space-y-3">
-                        <div className="p-3 bg-muted rounded-md">
-                          <code className="text-sm break-all font-mono">{displaySecret}</code>
+                        <div className="p-2 sm:p-3 bg-muted rounded-md">
+                          <code className="text-xs sm:text-sm break-all font-mono">{displaySecret}</code>
                         </div>
                         {item.strength && (
-                          <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                          <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs text-muted-foreground">
                             <span>Score: {item.strength.score}/100</span>
                             <span>Entropy: {item.strength.entropy} bits</span>
                             <span>Length: {item.secret.length} chars</span>
