@@ -1,9 +1,11 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { SecretGenerator } from "@/components/secret-generator";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { LoadingSkeleton } from "@/components/loading-skeleton";
 import { Shield, Lock, Sparkles } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -41,14 +43,47 @@ const iconVariants = {
 };
 
 export default function Home() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    // Simulate loading time for better UX
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 800); // 800ms loading time
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-slate-950 dark:via-indigo-950 dark:to-purple-950 relative overflow-hidden">
+    <>
+      <AnimatePresence mode="wait">
+        {isLoading && (
+          <motion.div
+            key="loading"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <LoadingSkeleton />
+          </motion.div>
+        )}
+      </AnimatePresence>
+      
+      {!isLoading && isMounted && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-slate-950 dark:via-indigo-950 dark:to-purple-950 relative overflow-x-hidden"
+        >
       {/* Theme Toggle - Fixed position */}
       <motion.div
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5, delay: 0.3 }}
-        className="fixed top-4 right-4 z-50"
+        className="fixed top-2 right-2 sm:top-4 sm:right-4 z-50"
       >
         <ThemeToggle />
       </motion.div>
@@ -62,43 +97,43 @@ export default function Home() {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="mb-12 text-center space-y-4"
+          className="mb-8 sm:mb-12 text-center space-y-4"
         >
           <motion.div
             variants={itemVariants}
-            className="flex items-center justify-center gap-3 mb-4"
+            className="flex items-center justify-center gap-2 sm:gap-3 mb-4"
           >
             <motion.div
               variants={iconVariants}
               whileHover={{ scale: 1.1, rotate: 5 }}
               whileTap={{ scale: 0.95 }}
-              className="p-3 rounded-2xl bg-primary/10 shadow-lg"
+              className="p-2 sm:p-3 rounded-xl sm:rounded-2xl bg-primary/10 shadow-lg"
             >
-              <Shield className="h-8 w-8 text-primary" />
+              <Shield className="h-6 w-6 sm:h-8 sm:w-8 text-primary" />
             </motion.div>
             <motion.div
               variants={iconVariants}
               whileHover={{ scale: 1.1, rotate: -5 }}
               whileTap={{ scale: 0.95 }}
-              className="p-3 rounded-2xl bg-primary/10 shadow-lg"
+              className="p-2 sm:p-3 rounded-xl sm:rounded-2xl bg-primary/10 shadow-lg"
             >
-              <Lock className="h-8 w-8 text-primary" />
+              <Lock className="h-6 w-6 sm:h-8 sm:w-8 text-primary" />
             </motion.div>
             <motion.div
               variants={iconVariants}
               whileHover={{ scale: 1.1, rotate: 5 }}
               whileTap={{ scale: 0.95 }}
-              className="p-3 rounded-2xl bg-primary/10 shadow-lg"
+              className="p-2 sm:p-3 rounded-xl sm:rounded-2xl bg-primary/10 shadow-lg"
             >
-              <Sparkles className="h-8 w-8 text-primary" />
+              <Sparkles className="h-6 w-6 sm:h-8 sm:w-8 text-primary" />
             </motion.div>
           </motion.div>
           
-          <motion.div variants={itemVariants}>
-            <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight mb-4 bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent">
+          <motion.div variants={itemVariants} className="px-2 sm:px-4">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-4 bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent leading-[1.2] sm:leading-[1.3] md:leading-normal py-3">
               Secret Key Generator
             </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed px-4">
               Generate cryptographically secure secrets using various algorithms
             </p>
           </motion.div>
@@ -142,14 +177,16 @@ export default function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.8 }}
-          className="mt-12 text-center"
+          className="mt-8 sm:mt-12 text-center px-4"
         >
-          <p className="text-sm text-muted-foreground">
+          <p className="text-xs sm:text-sm text-muted-foreground">
             All secrets are generated using cryptographically secure random number generators
           </p>
         </motion.div>
       </div>
-    </div>
+        </motion.div>
+      )}
+    </>
   );
 }
 

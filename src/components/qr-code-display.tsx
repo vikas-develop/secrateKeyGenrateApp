@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { QRCodeSVG } from "qrcode.react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -23,8 +23,23 @@ export function QRCodeDisplay({
   className = "",
 }: QRCodeDisplayProps) {
   const [isDownloading, setIsDownloading] = useState(false);
+  const [responsiveSize, setResponsiveSize] = useState(size);
   const qrRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+
+  useEffect(() => {
+    const updateSize = () => {
+      if (window.innerWidth < 640) {
+        setResponsiveSize(Math.min(size, 200));
+      } else {
+        setResponsiveSize(size);
+      }
+    };
+    
+    updateSize();
+    window.addEventListener('resize', updateSize);
+    return () => window.removeEventListener('resize', updateSize);
+  }, [size]);
 
   const handleDownload = async () => {
     if (!qrRef.current) return;
@@ -108,10 +123,10 @@ export function QRCodeDisplay({
   return (
     <Card className={`border ${className}`}>
       <CardHeader className="pb-3">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <QrCode className="h-5 w-5 text-primary" />
-            <CardTitle className="text-lg font-semibold">{title}</CardTitle>
+            <QrCode className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+            <CardTitle className="text-base sm:text-lg font-semibold">{title}</CardTitle>
           </div>
           {showDownload && (
             <Button
@@ -119,7 +134,7 @@ export function QRCodeDisplay({
               size="sm"
               onClick={handleDownload}
               disabled={isDownloading}
-              className="gap-2"
+              className="gap-2 w-full sm:w-auto"
             >
               <Download className="h-4 w-4" />
               {isDownloading ? "Downloading..." : "Download"}
@@ -131,18 +146,18 @@ export function QRCodeDisplay({
         <div className="flex flex-col items-center gap-4">
           <div
             ref={qrRef}
-            className="p-4 bg-white rounded-lg border-2 border-border/50 shadow-sm"
+            className="p-3 sm:p-4 bg-white rounded-lg border-2 border-border/50 shadow-sm"
           >
             <QRCodeSVG
               value={value}
-              size={size}
+              size={responsiveSize}
               level="H" // High error correction
               includeMargin={true}
               bgColor="#ffffff"
               fgColor="#000000"
             />
           </div>
-          <p className="text-xs text-muted-foreground text-center max-w-xs">
+          <p className="text-xs text-muted-foreground text-center max-w-xs px-2">
             Scan this QR code with your mobile device to quickly transfer the secret
           </p>
         </div>
