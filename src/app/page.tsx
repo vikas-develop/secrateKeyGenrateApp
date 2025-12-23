@@ -54,54 +54,59 @@ export default function Home() {
       </motion.div>
       
       {/* Decorative gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 via-transparent to-primary/10"></div>
+      <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 via-transparent to-primary/10" aria-hidden="true"></div>
       
-      <div className="relative container mx-auto p-4 md:p-8 lg:p-12 z-10">
+      <main className="relative container mx-auto p-4 md:p-8 lg:p-12 z-10">
         {/* Header Section */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="mb-12 text-center space-y-4"
-        >
+        <header>
           <motion.div
-            variants={itemVariants}
-            className="flex items-center justify-center gap-3 mb-4"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="mb-12 text-center space-y-4"
           >
             <motion.div
-              variants={iconVariants}
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              whileTap={{ scale: 0.95 }}
-              className="p-3 rounded-2xl bg-primary/10 shadow-lg"
+              variants={itemVariants}
+              className="flex items-center justify-center gap-3 mb-4"
+              aria-label="Security icons"
             >
-              <Shield className="h-8 w-8 text-primary" />
+              <motion.div
+                variants={iconVariants}
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                whileTap={{ scale: 0.95 }}
+                className="p-3 rounded-2xl bg-primary/10 shadow-lg"
+                aria-hidden="true"
+              >
+                <Shield className="h-8 w-8 text-primary" />
+              </motion.div>
+              <motion.div
+                variants={iconVariants}
+                whileHover={{ scale: 1.1, rotate: -5 }}
+                whileTap={{ scale: 0.95 }}
+                className="p-3 rounded-2xl bg-primary/10 shadow-lg"
+                aria-hidden="true"
+              >
+                <Lock className="h-8 w-8 text-primary" />
+              </motion.div>
+              <motion.div
+                variants={iconVariants}
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                whileTap={{ scale: 0.95 }}
+                className="p-3 rounded-2xl bg-primary/10 shadow-lg"
+                aria-hidden="true"
+              >
+                <Sparkles className="h-8 w-8 text-primary" />
+              </motion.div>
             </motion.div>
-            <motion.div
-              variants={iconVariants}
-              whileHover={{ scale: 1.1, rotate: -5 }}
-              whileTap={{ scale: 0.95 }}
-              className="p-3 rounded-2xl bg-primary/10 shadow-lg"
-            >
-              <Lock className="h-8 w-8 text-primary" />
+            
+            <motion.div variants={itemVariants}>
+              <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight mb-4 bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent">
+                Secret Key Generator
+              </h1>
+              <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+                Generate cryptographically secure secrets using various algorithms
+              </p>
             </motion.div>
-            <motion.div
-              variants={iconVariants}
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              whileTap={{ scale: 0.95 }}
-              className="p-3 rounded-2xl bg-primary/10 shadow-lg"
-            >
-              <Sparkles className="h-8 w-8 text-primary" />
-            </motion.div>
-          </motion.div>
-          
-          <motion.div variants={itemVariants}>
-            <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight mb-4 bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent">
-              Secret Key Generator
-            </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              Generate cryptographically secure secrets using various algorithms
-            </p>
-          </motion.div>
           
           <motion.div
             variants={itemVariants}
@@ -127,28 +132,33 @@ export default function Home() {
             />
           </motion.div>
         </motion.div>
+        </header>
 
         {/* Main Generator Component */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
-          <SecretGenerator />
-        </motion.div>
+        <section aria-label="Secret generator tool">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            <SecretGenerator />
+          </motion.div>
+        </section>
 
         {/* Footer Info */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.8 }}
-          className="mt-12 text-center"
-        >
-          <p className="text-sm text-muted-foreground">
-            All secrets are generated using cryptographically secure random number generators
-          </p>
-        </motion.div>
-      </div>
+        <footer>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.8 }}
+            className="mt-12 text-center"
+          >
+            <p className="text-sm text-muted-foreground">
+              All secrets are generated using cryptographically secure random number generators
+            </p>
+          </motion.div>
+        </footer>
+      </main>
     </div>
   );
 }
