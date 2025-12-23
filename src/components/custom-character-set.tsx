@@ -65,12 +65,12 @@ export function CustomCharacterSet({
   return (
     <Card className="border-2">
       <CardHeader className="pb-3">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <Settings className="h-5 w-5 text-primary" />
-            <CardTitle className="text-lg font-semibold">Custom Character Set</CardTitle>
+            <Settings className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+            <CardTitle className="text-base sm:text-lg font-semibold">Custom Character Set</CardTitle>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 w-full sm:w-auto">
             <Checkbox
               id="use-custom-charset"
               checked={useCustom}
@@ -82,7 +82,7 @@ export function CustomCharacterSet({
             </Label>
           </div>
         </div>
-        <CardDescription>
+        <CardDescription className="text-sm">
           Define your own character set for secret generation
         </CardDescription>
       </CardHeader>
@@ -168,7 +168,7 @@ export function CustomCharacterSet({
             {/* Presets */}
             <div className="space-y-2">
               <Label className="text-sm font-medium">Quick Presets</Label>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                 {Object.entries(CHARACTER_SET_PRESETS).map(([name, preset]) => (
                   <Button
                     key={name}

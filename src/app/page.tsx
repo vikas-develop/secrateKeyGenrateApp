@@ -1,9 +1,11 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { SecretGenerator } from "@/components/secret-generator";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { LoadingSkeleton } from "@/components/loading-skeleton";
 import { Shield, Lock, Sparkles } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -41,14 +43,47 @@ const iconVariants = {
 };
 
 export default function Home() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    // Simulate loading time for better UX
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 800); // 800ms loading time
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-slate-950 dark:via-indigo-950 dark:to-purple-950 relative overflow-hidden">
+    <>
+      <AnimatePresence mode="wait">
+        {isLoading && (
+          <motion.div
+            key="loading"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <LoadingSkeleton />
+          </motion.div>
+        )}
+      </AnimatePresence>
+      
+      {!isLoading && isMounted && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-slate-950 dark:via-indigo-950 dark:to-purple-950 relative overflow-x-hidden"
+        >
       {/* Theme Toggle - Fixed position */}
       <motion.div
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5, delay: 0.3 }}
-        className="fixed top-4 right-4 z-50"
+        className="fixed top-2 right-2 sm:top-4 sm:right-4 z-50"
       >
         <ThemeToggle />
       </motion.div>
@@ -159,7 +194,9 @@ export default function Home() {
           </motion.div>
         </footer>
       </main>
-    </div>
+        </motion.div>
+      )}
+    </>
   );
 }
 
